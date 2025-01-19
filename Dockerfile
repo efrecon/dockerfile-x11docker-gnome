@@ -29,7 +29,7 @@
 #  - gnome-usage crashes with a segfault.
 #  - Wayland setups do not work.
 
-FROM debian:bullseye
+FROM debian:bookworm
 ENV LANG en_US.UTF-8
 ENV SHELL=/bin/bash
 
@@ -51,6 +51,8 @@ RUN apt-get update && \
       locale-gen && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y \
       at-spi2-core \
+      ca-certificates \
+      curl \
       dbus \
       dbus-x11 \
       libpulse0 \
@@ -70,18 +72,20 @@ RUN apt-get update && \
 RUN apt-get update && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       cheese \
+      dconf-cli \
+      epiphany-browser \
       gedit \
       gnome-control-center \
       gnome-system-monitor \
       gnome-terminal \
-      gnome-tweak-tool \
+      gnome-tweaks \
       nautilus && \
     /cleanup
 
 # Gnome Shell extensions
 RUN apt-get update && \
     env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-      gnome-shell-extension* && \
+      gnome-shell-extensions gnome-shell-extensions-extra gnome-shell-extension-manager && \
     /cleanup
 
 CMD gnome-shell
